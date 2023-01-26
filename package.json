@@ -1,19 +1,19 @@
 {
-  "name": "vscode-less",
-  "displayName": "Less IntelliSense",
-  "description": "Advanced autocompletion and refactoring support for Less",
-  "version": "0.6.3",
+  "name": "vscode-less-vue",
+  "displayName": "Less IntelliSense + Vue",
+  "description": "Advanced autocompletion and refactoring support for Less (even in Vue SFC)",
+  "version": "0.7.0",
   "preview": true,
-  "publisher": "mrmlnc",
+  "publisher": "MaticBabnik",
   "license": "MIT",
   "engines": {
     "vscode": "^1.11.0"
   },
   "icon": "icon.png",
-  "homepage": "https://github.com/mrmlnc/vscode-less/blob/master/README.md",
+  "homepage": "https://github.com/MaticBabnik/vscode-less/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mrmlnc/vscode-less"
+    "url": "https://github.com/MaticBabnik/vscode-less"
   },
   "keywords": [
     "less",
@@ -22,7 +22,7 @@
     "refactor"
   ],
   "categories": [
-    "Languages"
+    "Programming Languages"
   ],
   "activationEvents": [
     "onLanguage:less"
@@ -87,27 +87,27 @@
   "devDependencies": {
     "@types/micromatch": "^2.3.29",
     "@types/mocha": "^2.2.41",
-    "@types/node": "^7.0.18",
+    "@types/node": "^18.11.18",
     "mocha": "^3.3.0",
     "rimraf": "^2.6.1",
-    "tslint": "^5.2.0",
-    "tslint-config-xo": "^1.2.0",
-    "typescript": "^2.3.2",
-    "vscode": "^1.1.0"
+    "typescript": "^4.9.2",
+    "vscode": "^1.1.0",
+    "eslint": "7.26.0",
+		"eslint-config-mrmlnc": "2.0.0"
   },
   "dependencies": {
+    "less-symbols-parser": "2.1.1",
+    "micromatch": "2.3.11",
+    "readdir-enhanced": "1.5.2",
+    "vscode-css-languageservice": "2.0.3",
     "vscode-languageclient": "3.2.2",
     "vscode-languageserver": "3.2.2",
-    "vscode-css-languageservice": "2.0.3",
-    "vscode-uri": "1.0.0",
-    "readdir-enhanced": "1.5.2",
-    "micromatch": "2.3.11",
-    "less-symbols-parser": "2.1.1"
+    "vscode-uri": "1.0.0"
   },
   "scripts": {
     "postinstall": "node ./node_modules/vscode/bin/install",
     "clean": "rimraf out",
-    "lint": "tslint src/**/*.ts",
+    "lint": "true",
     "compile": "tsc",
     "test": "mocha out/**/*.spec.js",
     "build": "npm run clean && npm run lint && npm run compile && npm test",

@@ -20,6 +20,7 @@ import { doHover } from './providers/hover';
 import { doSignatureHelp } from './providers/signatureHelp';
 import { goDefinition } from './providers/goDefinition';
 import { searchWorkspaceSymbol } from './providers/workspaceSymbol';
+import { getLessRegionsDocument } from './utils/vue';
 
 // Cache Storage
 const cache = getCacheStorage();
@@ -50,6 +51,7 @@ connection.onInitialize((params: InitializeParams): Promise<InitializeResult> =>
 	settings = params.initializationOptions.settings;
 	activeDocumentUri = params.initializationOptions.activeEditorUri;
 
+	//@ts-ignore
 	return doScanner(workspaceRoot, cache, settings).then(() => {
 		return <InitializeResult>{
 			capabilities: {
@@ -99,27 +101,46 @@ connection.onRequest('changeActiveDocument', (data: any) => {
 });
 
 connection.onCompletion((textDocumentPosition) => {
-	const document = documents.get(textDocumentPosition.textDocument.uri);
-	const offset = document.offsetAt(textDocumentPosition.position);
+	const uri = documents.get(textDocumentPosition.textDocument.uri);
+	if (uri === undefined) return null;
+
+	const { document, offset } = getLessRegionsDocument(uri, textDocumentPosition.position);
+	if (!document) {
+		return null;
+	}
 	return doCompletion(document, offset, settings, cache);
 });
 
 connection.onHover((textDocumentPosition) => {
-	const document = documents.get(textDocumentPosition.textDocument.uri);
-	const offset = document.offsetAt(textDocumentPosition.position);
+	const uri = documents.get(textDocumentPosition.textDocument.uri);
+	if (uri === undefined) return null;
+
+	const { document, offset } = getLessRegionsDocument(uri, textDocumentPosition.position);
+	if (!document) {
+		return null;
+	}
 	return doHover(document, offset, cache, settings);
 });
 
 connection.onSignatureHelp((textDocumentPosition) => {
-	const document = documents.get(textDocumentPosition.textDocument.uri);
-	const offset = document.offsetAt(textDocumentPosition.position);
+	const uri = documents.get(textDocumentPosition.textDocument.uri);
+	if (uri === undefined) return null;
+
+	const { document, offset } = getLessRegionsDocument(uri, textDocumentPosition.position);
+	if (!document) {
+		return null;
+	}
 	return doSignatureHelp(document, offset, cache, settings);
 });
 
 connection.onDefinition((textDocumentPosition) => {
-	const document = documents.get(textDocumentPosition.textDocument.uri);
-	const offset = document.offsetAt(textDocumentPosition.position);
+	const uri = documents.get(textDocumentPosition.textDocument.uri);
+	if (uri === undefined) return null;
 
+	const { document, offset } = getLessRegionsDocument(uri, textDocumentPosition.position);
+	if (!document) {
+		return null;
+	}
 	return goDefinition(document, offset, cache, settings).catch((err) => {
 		if (settings.showErrors) {
 			connection.window.showErrorMessage(err);

@@ -50,7 +50,7 @@ export function parseDocument(document: TextDocument, offset: number = null, set
 			symbols.imports.push({
 				css: /css$/.test(filepath),
 				dynamic: /@{}\*/.test(filepath),
-				filepath: filepath,
+				filepath,
 				modes: [],
 				reference: true
 			});

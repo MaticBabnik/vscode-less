@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const activeEditor = vscode.window.activeTextEditor;
 
 	const clientOptions: LanguageClientOptions = {
-		documentSelector: ['less'],
+		documentSelector: ['less','vue'],
 		synchronize: {
 			configurationSection: ['less'],
 			fileEvents: vscode.workspace.createFileSystemWatcher('**/*.less')
